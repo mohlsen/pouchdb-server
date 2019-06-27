@@ -11,6 +11,9 @@ var buildApp = require('../../packages/node_modules/express-pouchdb'),
     memdown  = require('memdown'),
     assert   = require('assert');
 
+const should = require('chai').should();
+
+
 var TEST_DATA = __dirname + '/testdata/';
 var LARGE_TIMEOUT = 5000;
 
@@ -404,6 +407,7 @@ describe('endpoints', function () {
         .send({docs: [{id: person._id, rev: person._rev}]})
         .expect(200)
         .then((resp) => {
+
           let respBody = JSON.parse(resp.text);
           respBody.should.have.property('results').with.lengthOf(1);
           respBody.results[0].id.should.equal(person._id);
@@ -444,7 +448,7 @@ describe('endpoints', function () {
           respBody.results[0].docs[0].missing.should.equal(modifiedRev);
         });
   });
-  it('should handle a get request with a non-existing revision pattern and asking for latest', function () {
+  it.only('should handle a get request with a non-existing revision pattern and asking for latest', function () {
 
     const modifiedRev = getInvalidRev(person._rev);
 
@@ -461,6 +465,7 @@ describe('endpoints', function () {
           respBody.results[0].docs[0].missing.should.equal(modifiedRev);
         });
   });
+
 
 });
 
